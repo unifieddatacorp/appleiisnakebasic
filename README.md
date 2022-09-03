@@ -19,3 +19,5 @@ Notes:
 - There are some parameters you can play with at the top of the file.
 
 - It's far from perfect but I have to stop somewhere.
+
+- You can watch a video of the gameplay here https://www.youtube.com/watch?v=IHTiPXrMJ1Q
