@@ -18,6 +18,8 @@ Notes:
 
 - There are some parameters you can play with at the top of the file.
 
+- RAM: I don't know if this will work on a smaller, say 4K system. You can try reducing the size of the "snake" array on line 150 as the number I picked is unreasonably large anyway - but then you may need to add a check to stop the snake from growing larger than the array size.
+
 - It's far from perfect but I have to stop somewhere.
 
 - You can watch a video of the gameplay here https://www.youtube.com/watch?v=IHTiPXrMJ1Q
