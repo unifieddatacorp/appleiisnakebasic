@@ -14,7 +14,7 @@ Run it here: https://www.calormen.com/jsbasic/
 Notes:
 - **IMPORTANT, delay**: You'll **need** to set the delay on line 20 depending on which emulator you use. I've set it to 1,000 which is fine for the calormen emulator. For the sculinstell one you'll need to set this to 0 otherwise the game is unplayable. I don't have a real Apple II but I suspect it will need to be "0" there also.
 
-- Some readability and cleanliness has been sacrificed in the name of speed, mostly around advancing and growing the snake. Unfortunately this makes the code a bit hard to follow, but hey it's BASIC.
+- Some readability and cleanliness has been sacrificed in the name of speed, mostly around advancing and growing the snake. Unfortunately this makes the code a bit hard to follow (at least that's my excuse, anyway.)
 
 - There are some parameters you can play with at the top of the file.
 
