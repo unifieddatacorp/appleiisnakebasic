@@ -1,7 +1,7 @@
 # appleiisnakebasic
-A snake game for Apple II basic inspired by The Coding Train.
+A snake game for Apple II basic inspired by The Coding Train's video here: https://www.youtube.com/watch?v=7r83N3c2kPw&t=727s
 
-https://www.youtube.com/watch?v=7r83N3c2kPw
+Gameplay video: https://www.youtube.com/watch?v=IHTiPXrMJ1Q
 
 I haven't coded in BASIC since maybe middle school and then it was on TRS-80s, but nevertheless here is my feeble attempt at a snake game with various improvements such as a maze, scoreboard, welcome and game over screens, and multiple levels. 
 
