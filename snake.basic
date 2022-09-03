@@ -1,0 +1,273 @@
+10 rem parameters, adjust these values to whatever you like
+20 dl = 1000 : rem IMPORTANT, set this delay increase to slow down. Try 0 on a real Apple II
+30 ss = 12 : bc = 9 : fc = 6 :rem snake/wall/food color
+40 cc = 3 : lc = 5 : wc = 1 : rem collision/lose/win color
+50 wn = 150 : rem score to win the game
+60 il = 10 : rem initial snake length
+70 sg = 10 : rem how much to grow snake 
+80 nf = 5 : rem number of food pieces on the board
+
+
+150 dim snake(1000,4)
+160 let lv = 1
+
+199 rem begin game
+200 gosub 1000 : rem draw welcome screen, wait for game start
+210 gosub 2000 : rem game setup
+220 gosub 3000 : rem change snake direction based on keys
+230 gosub 5000 : rem advance snake
+240 gosub 8000 : rem hit detection and food detection
+250 if ll = 0 then gosub 11200 : rem next level
+260 if dl > 0 then gosub 7000 : rem delay
+270 if gg = 1 then goto 220
+280 gosub 6000 : rem game over
+290 goto 210
+
+999 rem draw welcome screen and wait for key
+1000 normal  : home
+1010 gosub 12000 : : rem draw playfield
+1020 htab 18: vtab 23: inverse: print "SNAKE"
+1025 POKE 49168,0
+1030 htab 10: vtab 24: normal: print "PRESS ANY KEY TO BEGIN"
+1040 x = rnd(1) : rem to reseed rnd
+1050 if peek(49152) > 127 then goto 1070
+1060 goto 1040
+1070 POKE 49168,0
+1080 home
+1998 return
+
+1999 rem initialize new game
+2000 home
+2010 let hit = 0
+2020 let lv = 1
+2030 gosub 2300 : rem initialize snake
+2040 let gg=1 : rem game active
+2050 let sc=0 : rem score
+2060 gosub 9000 : rem print score
+2298 Return
+
+2299 rem init snake position
+2300 let ln= il : rem snake len
+2310 for i = 1 to il : snake(i,1) = 19 : snake(i,2) = 10 : next i 
+2320 sh = il : st = 1
+2330 let dx = 1: let dy = 0 : rem snake direction
+2340 rem snake(1,1) = 19: snake (1,2) = 19 : rem initial snake position
+2350 for I = 1 to nf : gosub 4000 : next I : rem generate food
+2998 return
+
+2999 rem change snake direction based on keys
+3000 k = PEEK(49152)
+3010 if k= 215 then if dy = 0 then dx = 0 : dy = -1 : POKE 49168,0
+3020 if k= 193 then if dx =0 then dx = -1 : dy = 0 : POKE 49168,0
+3030 if k= 211 then if dy = 0 then dx = 0 : dy = 1 : POKE 49168,0
+3040 if k= 196 then if dx = 0 then dx = 1 : dy = 0 : POKE 49168,0
+3998 return
+
+3999 rem generate food
+4000 let fx=int((rnd(1)*38)+1)
+4010 let fy=int((rnd(1)*38)+1)
+4020 ck=scrn(fx,fy)
+4030 if ck <> 0 then goto 4000
+4050 color= fc
+4060 plot fx,fy
+4070 return
+
+4999 rem advance snake
+5000 color=0
+5010 plot snake(st,1), snake(st,2)
+5030 sx = snake(sh,1) : sy = snake(sh,2)
+5040 sh = sh + 1
+5050 if sh > ln then sh = 1
+5060 st = st + 1
+5070 if st > ln then st = 1
+5080 snake(sh,1) = sx+dx : snake(sh,2) = sy+dy
+5090 if snake(sh,1) > 39 then snake(sh,1) = 0
+5100 if snake(sh, 2) > 39 then snake(sh,2) = 0
+5110 if snake(sh,1) < 0 then snake(sh,1) = 39
+5120 if snake(sh,2) < 0 then snake(sh,2) = 39
+5130 hit = scrn(snake(sh,1),snake(sh,2))
+5140 color= ss
+5150 plot snake(sh,1), snake(sh,2)
+5160 if mt = 0 then goto 5170
+5170 mt = mt - 1
+5180 if mt = 0 then home: gosub 9000
+5998 return
+
+5999 rem draw game over screen, wait for keypress or for a short time then return
+6000 home : gosub 9000
+6010 if hit <> ss then htab 8: vtab 23: inverse: print "OH NO! YOU HIT THE WALL.";
+6020 if hit = ss then htab 4: vtab 23: inverse: print "WHOOPSIE DOODLE! YOU ATE YOURSELF";
+6030 color=cc : plot snake(sh,1), snake(sh,2)
+6040 j = st : color = lc
+6050 rem lose animation
+6060 for I = 1 to ln-1
+6070 plot snake(j, 1), snake(j,2)
+6080 j = j + 1
+6090 if j > ln then j = 1
+6100 next I
+6110 color=cc : plot snake(sh,1), snake(sh,2)
+6120 htab 4: vtab 24: normal: print "PRESS ANY KEY TO START A NEW GAME";
+6130 POKE 49168,0
+6140 get k$
+6150 lv=1
+6160 gosub 12000 : : rem draw playfield
+6998 return
+
+6999 rem delay
+7000 for k = 1 to dl : next k
+7998 return
+
+7999 rem hit detection
+8000 if hit = bc then gg = 0 
+8010 if hit = fc then gosub 10000
+8020 if hit = ss then gg = 0
+8998 return
+
+8999 rem draw score
+9000 htab 1: vtab 22: print "SCORE: ";
+9010 htab 10: vtab 22: print sc;
+9015 if gg = 0 then return
+9020 htab 20: vtab 22: print "LEVEL   ";
+9030 htab 35: vtab 22: print lv;
+9040 htab 20: vtab 23: print "NEXT LEVEL IN:    "; 
+9050 htab 35: vtab 23: print ll;
+9199 return
+
+9999 rem grow snake
+10000 print CHR$(7)
+10005 htab 1: vtab 23: inverse: print "YUMMY!!"; : normal : mt = 5
+10010 sc=sc+1
+10020 if sc = wn then gg = 0 : goto 11000 : rem winner screen
+10030 ll = ll -1 : rem points to next level
+10050 rem copy snake
+10060 j=1
+10070 for i = st to ln
+10080 snake(j,3) = snake(i,1)
+10090 snake(j,4) = snake(i,2)
+10100 j = j + 1
+10110 next i
+10120 if st = 1 then goto 10180
+10130 for i = 1 to sh
+10140 snake(j,3) = snake(I,1)
+10150 snake(j,4) = snake(i,2)
+10160 j = j + 1
+10170 next i
+10180 ln=ln+ sg
+10190 rem now rebuild snake array, repeat first SG positions so the snake grows while it moves
+10195 for i = 1 to sg
+10200 snake(i,1) = snake(1,3)
+10210 snake(i,2) = snake(1,4)
+10220 next i
+10270 for i = 1 to ln-sg
+10280 snake(I+sg,1) = snake(I,3)
+10290 snake(I+sg,2) = snake(I,4)
+10300 next i
+10310 sh = ln : st = 1
+10320 gosub 9000 : rem draw score
+10330 gosub 4000 : rem generate food
+10998 return
+
+10999 rem winner screen
+11000 gosub 9000 
+11020 htab 14: vtab 23: inverse: print "YOU'RE WINNER!"; :rem google it
+11030 htab 4: vtab 24: normal: print "PRESS ANY KEY TO START A NEW GAME";
+11040 POKE 49168,0
+11050 get k$
+11060 gosub 12000 : : rem draw playfield
+11198 goto 220
+
+11199 rem advance level
+11200 rem win animation
+11210 color=wc : rem win color
+11220 j = st
+11230 for I = 1 to ln
+11240 plot snake(j, 1), snake(j,2)
+11250 j = j + 1
+11260 if j > ln then j = 1
+11270 next I
+11280 home : htab 11: vtab 23: inverse: print "LEVEL " + str$(lv) + " COMPLETE!"; 
+11290 POKE 49168,0
+11300 htab 6: vtab 24: normal: print "PRESS ANY KEY FOR NEXT LEVEL";
+11310 get k$
+11320 POKE 49168,0
+11330 home
+11340 lv=lv+1
+11350 gosub 12000 : rem draw playfield
+11360 gosub 2300 : rem advance snake position
+11998 return
+
+11999 rem draw playfield
+12000 gr
+12010 color=bc
+12020 vlin 0,39 at 0
+12030 vlin 0,39 at 39
+12040 hlin 0,39 at 0
+12050 hlin 0,39 at 39
+12060 if lv-int(lv/4)*4 = 1 then gosub 12200
+12070 if lv-int(lv/4)*4 = 2 then gosub 13000
+12080 if lv-int(lv/4)*4 = 3 then gosub 14000
+12090 if lv-int(lv/4)*4 = 0 then gosub 15000 : rem level 4
+12110 if lv > 4 then ll = ll * (int(lv/4)+1)
+12198 return
+
+12199 rem level 1
+12200 vlin 0,23 at 9
+12210 vlin 0,23 at 31
+12220 vlin 19,39 at 20
+12230 if lv > 1 then return
+12240 color=0
+12250 vlin 20,25 at 39
+12260 vlin 20,25 at 0
+12270 ll = 10 : rem points to the next level
+12998 return
+
+12999 rem level 2
+13000 hlin 0,27 at 9
+13020 hlin 32, 39 at 9
+13030 hlin 0,27 at 31
+13040 hlin 19,39 at 20
+13050 hlin 0,11 at 20
+13060 hlin 32,35 at 30
+13070 hlin 32,35 at 31
+13080 hlin 32,35 at 32
+13090 if lv > 2 then return
+13100 color=0
+13110 hlin 27,33 at 0
+13120 hlin 27,33 at 39
+13997 ll = 15 : rem points to the next level
+13998 return
+
+13999 rem level 3
+14000 vlin 0,25 at 9
+14010 vlin 0,25 at 31
+14020 vlin 14,39 at 23 
+14030 hlin 30,33 at 30
+14040 hlin 30,35 at 31
+14050 hlin 30,35 at 32
+14060 hlin 30,35 at 33
+14070 hlin 33,35 at 34
+14080 vlin 32,5 at 14
+14090 hlin 15,25 at 5
+14100 hlin 0,5 at 10
+14120 hlin 0,8 at 30
+14997 ll = 15 : rem points to the next level
+14998 return
+
+14999 rem level 4
+15000 vlin 0, 7 at 20
+15010 vlin 12, 39 at 20
+15020 vlin 5, 20 at 5
+15030 hlin 5, 15 at 5
+15040 vlin 11, 18 at 9
+15050 hlin 9, 13 at 11
+15060 hlin 15, 20 at 15
+15070 vlin 26, 34 at 5
+15080 hlin 5, 15 at 34
+15090 vlin 26, 29 at 9
+15100 hlin 9, 13 at 29
+15110 for i = 5 to 8: hlin 25, 30 at i: next i
+15120 for i = 14 to 17: hlin 30, 35 at i: next i
+15130 for i = 23 to 26: hlin 25, 30 at i: next i
+15140 for i = 31 to 34: hlin 30, 35 at i: next i
+15997 ll=15 : rem points to the next level
+15998 return
