@@ -214,7 +214,7 @@
 12200 vlin 0,23 at 9
 12210 vlin 0,23 at 31
 12220 vlin 19,39 at 20
-12230 if lv > 1 then return
+12230 if lv > 1 then goto 12270
 12240 color=0
 12250 vlin 20,25 at 39
 12260 vlin 20,25 at 0
@@ -230,11 +230,11 @@
 13060 hlin 32,35 at 30
 13070 hlin 32,35 at 31
 13080 hlin 32,35 at 32
-13090 if lv > 2 then return
+13090 if lv > 2 then goto 13130
 13100 color=0
 13110 hlin 27,33 at 0
 13120 hlin 27,33 at 39
-13997 ll = 15 : rem points to the next level
+13130 ll = 15 : rem points to the next level
 13998 return
 
 13999 rem level 3
