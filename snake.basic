@@ -93,7 +93,7 @@
 5180 if mt = 0 then home: gosub 9000
 5998 return
 
-5999 rem draw game over screen, wait for keypress or for a short time then return
+5999 rem draw game over screen, wait for keypress
 6000 home : gosub 9000
 6010 if hit <> ss then htab 8: vtab 23: inverse: print "OH NO! YOU HIT THE WALL.";
 6020 if hit = ss then htab 4: vtab 23: inverse: print "WHOOPSIE DOODLE! YOU ATE YOURSELF";
