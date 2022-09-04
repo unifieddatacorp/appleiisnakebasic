@@ -7,7 +7,6 @@
 70 sg = 10 : rem how much to grow snake 
 80 nf = 5 : rem number of food pieces on the board
 
-
 150 dim snake(1000,4)
 160 let lv = 1
 
@@ -28,9 +27,9 @@
 1010 gosub 12000 : : rem draw playfield
 1020 htab 18: vtab 23: inverse: print "SNAKE"
 1025 POKE 49168,0
-1030 htab 10: vtab 24: normal: print "PRESS ANY KEY TO BEGIN"
+1030 htab 11: vtab 24: normal: print "PRESS ENTER TO BEGIN"
 1040 x = rnd(1) : rem to reseed rnd
-1050 if peek(49152) > 127 then goto 1070
+1050 if peek(49152) = 141 then goto 1070
 1060 goto 1040
 1070 POKE 49168,0
 1080 home
@@ -93,7 +92,7 @@
 5180 if mt = 0 then home: gosub 9000
 5998 return
 
-5999 rem draw game over screen, wait for keypress
+5999 rem draw game over screen, wait for keypress or for a short time then return
 6000 home : gosub 9000
 6010 if hit <> ss then htab 8: vtab 23: inverse: print "OH NO! YOU HIT THE WALL.";
 6020 if hit = ss then htab 4: vtab 23: inverse: print "WHOOPSIE DOODLE! YOU ATE YOURSELF";
@@ -106,11 +105,12 @@
 6090 if j > ln then j = 1
 6100 next I
 6110 color=cc : plot snake(sh,1), snake(sh,2)
-6120 htab 4: vtab 24: normal: print "PRESS ANY KEY TO START A NEW GAME";
+6120 htab 5: vtab 24: normal: print "PRESS ENTER TO START A NEW GAME";
 6130 POKE 49168,0
-6140 get k$
-6150 lv=1
-6160 gosub 12000 : : rem draw playfield
+6140 if peek(49152) <> 141 then goto 6130
+6150 POKE 49168,0
+6160 lv=1
+6170 gosub 12000 : : rem draw playfield
 6998 return
 
 6999 rem delay
@@ -170,10 +170,11 @@
 10999 rem winner screen
 11000 gosub 9000 
 11020 htab 14: vtab 23: inverse: print "YOU'RE WINNER!"; :rem google it
-11030 htab 4: vtab 24: normal: print "PRESS ANY KEY TO START A NEW GAME";
-11040 POKE 49168,0
-11050 get k$
-11060 gosub 12000 : : rem draw playfield
+11030 htab 10: vtab 24: normal: print "PRESS ENTER FOR NEW GAME"
+11040 x = rnd(1) : rem to reseed rnd
+11050 if peek(49152) <> 141 then goto 11040
+11060 POKE 49168,0
+11070 gosub 12000 : : rem draw playfield
 11198 goto 220
 
 11199 rem advance level
@@ -185,15 +186,16 @@
 11250 j = j + 1
 11260 if j > ln then j = 1
 11270 next I
-11280 home : htab 11: vtab 23: inverse: print "LEVEL " + str$(lv) + " COMPLETE!"; 
+11280 home : htab 12: vtab 23: inverse: print "LEVEL " + str$(lv) + " COMPLETE!"; 
 11290 POKE 49168,0
-11300 htab 6: vtab 24: normal: print "PRESS ANY KEY FOR NEXT LEVEL";
-11310 get k$
-11320 POKE 49168,0
-11330 home
-11340 lv=lv+1
-11350 gosub 12000 : rem draw playfield
-11360 gosub 2300 : rem advance snake position
+11300 htab 7: vtab 24: normal: print "PRESS ENTER FOR NEXTT LEVEL"
+11310 x = rnd(1) : rem to reseed rnd
+11320 if peek(49152) <> 141 then goto 11310
+11330 POKE 49168,0
+11340 home
+11350 lv=lv+1
+11360 gosub 12000 : rem draw playfield
+11370 gosub 2300 : rem advance snake position
 11998 return
 
 11999 rem draw playfield
