@@ -107,7 +107,7 @@
 6110 color=cc : plot snake(sh,1), snake(sh,2)
 6120 htab 5: vtab 24: normal: print "PRESS ENTER TO START A NEW GAME";
 6130 POKE 49168,0
-6140 if peek(49152) <> 141 then goto 6130
+6140 if peek(49152) <> 141 then goto 6140
 6150 POKE 49168,0
 6160 lv=1
 6170 gosub 12000 : : rem draw playfield
