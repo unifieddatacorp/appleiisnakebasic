@@ -188,7 +188,7 @@
 11270 next I
 11280 home : htab 12: vtab 23: inverse: print "LEVEL " + str$(lv) + " COMPLETE!"; 
 11290 POKE 49168,0
-11300 htab 7: vtab 24: normal: print "PRESS ENTER FOR NEXTT LEVEL"
+11300 htab 8: vtab 24: normal: print "PRESS ENTER FOR NEXT LEVEL"
 11310 x = rnd(1) : rem to reseed rnd
 11320 if peek(49152) <> 141 then goto 11310
 11330 POKE 49168,0
