@@ -3,7 +3,7 @@ A snake game for Apple II basic inspired by The Coding Train's video here: https
 
 Gameplay video: https://www.youtube.com/watch?v=IHTiPXrMJ1Q
 
-I haven't coded in BASIC since maybe middle school and then it was on TRS-80s, but nevertheless here is my humble attempt at a snake game with various improvements such as a maze, scoreboard, welcome and game over screens, and multiple levels. 
+I haven't coded in BASIC since maybe middle school and then it was on TRS-80s, but nevertheless here is my humble attempt at a snake game with various improvements such as a maze, scoreboard, welcome and game over screens, and multiple levels with increasing difficulty.
 
 Run it here: https://www.calormen.com/jsbasic/
 
