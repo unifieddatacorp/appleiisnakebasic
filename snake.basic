@@ -7,7 +7,7 @@
 70 sg = 10 : rem how much to grow snake 
 80 nf = 5 : rem number of food pieces on the board
 
-150 dim snake(1000,4)
+150 dim snake(1000,4) : ml = 1000 : rem reduce both numbers for systems with less ram
 160 let lv = 1
 
 199 rem begin game
@@ -139,6 +139,7 @@
 10010 sc=sc+1
 10020 if sc = wn then gg = 0 : goto 11000 : rem winner screen
 10030 ll = ll -1 : rem points to next level
+10040 if ln+sg > ml then return
 10050 rem copy snake
 10060 j=1
 10070 for i = st to ln
