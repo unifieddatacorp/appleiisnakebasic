@@ -7,7 +7,7 @@
 70 sg = 10 : rem how much to grow snake 
 80 nf = 5 : rem number of food pieces on the board
 
-150 dim snake$(1000,4) : ml = 1000 : rem reduce both numbers for systems with less ram
+150 ml=1000 : dim snake$(1000,4) : ml = 1000 : rem reduce both numbers for systems with less ram
 160 let lv = 1
 
 199 rem begin game
@@ -50,8 +50,7 @@
 2310 for i = 1 to il : snake$(i,1) = chr$(19) : snake$(i,2) = chr$(10) : next i 
 2320 sh = il : st = 1
 2330 let dx = 1: let dy = 0 : rem snake direction
-2340 rem snake$(1,1) = chr(19): snake (1,2) = char(19) : rem initial snake position
-2350 for I = 1 to nf : gosub 4000 : next I : rem generate food
+2340 for I = 1 to nf : gosub 4000 : next I : rem generate food
 2998 return
 
 2999 rem change snake direction based on keys
