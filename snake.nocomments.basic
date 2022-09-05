@@ -1,12 +1,12 @@
 20 dl = 1000 
 30 ss = 12 : bc = 9 : fc = 6 
 40 cc = 3 : lc = 5 : wc = 1 
-50 wn = 150
+50 wn = 150 
 60 il = 10 
 70 sg = 10 
 80 nf = 5 
 
-150 dim snake(400,4) : ml = 400 
+150 ml=1000 : dim snake$(1000,4) : ml = 1000 
 160 let lv = 1
 
 200 gosub 1000 
@@ -42,9 +42,10 @@
 2298 Return
 
 2300 let ln= il 
-2310 for i = 1 to il : snake(i,1) = 19 : snake(i,2) = 10 : next i 
+2310 for i = 1 to il : snake$(i,1) = chr$(19) : snake$(i,2) = chr$(10) : next i 
 2320 sh = il : st = 1
 2330 let dx = 1: let dy = 0 
+2340 rem snake$(1,1) = chr(19): snake (1,2) = char(19) 
 2350 for I = 1 to nf : gosub 4000 : next I 
 2998 return
 
@@ -64,20 +65,20 @@
 4070 return
 
 5000 color=0
-5010 plot snake(st,1), snake(st,2)
-5030 sx = snake(sh,1) : sy = snake(sh,2)
+5010 plot asc(snake$(st,1)), asc(snake$(st,2))
+5030 sx = asc(snake$(sh,1)) : sy = asc(snake$(sh,2))
 5040 sh = sh + 1
 5050 if sh > ln then sh = 1
 5060 st = st + 1
 5070 if st > ln then st = 1
-5080 snake(sh,1) = sx+dx : snake(sh,2) = sy+dy
-5090 if snake(sh,1) > 39 then snake(sh,1) = 0
-5100 if snake(sh, 2) > 39 then snake(sh,2) = 0
-5110 if snake(sh,1) < 0 then snake(sh,1) = 39
-5120 if snake(sh,2) < 0 then snake(sh,2) = 39
-5130 hit = scrn(snake(sh,1),snake(sh,2))
+5080 if sx = 0 and dx = -1 then sx = 40
+5090 if sy = 0 and dy = -1 then sy = 40
+5100 snake$(sh,1) = chr$(sx+dx) : snake$(sh,2) = chr$(sy+dy)
+5110 if asc(snake$(sh,1)) > 39 then snake$(sh,1) = chr$(0)
+5120 if asc(snake$(sh, 2)) > 39 then snake$(sh,2) = chr$(0)
+5130 hit = scrn(asc(snake$(sh,1)),asc(snake$(sh,2)))
 5140 color= ss
-5150 plot snake(sh,1), snake(sh,2)
+5150 plot asc(snake$(sh,1)), asc(snake$(sh,2))
 5160 if mt = 0 then goto 5170
 5170 mt = mt - 1
 5180 if mt = 0 then home: gosub 9000
@@ -86,14 +87,15 @@
 6000 home : gosub 9000
 6010 if hit <> ss then htab 8: vtab 23: inverse: print "OH NO! YOU HIT THE WALL.";
 6020 if hit = ss then htab 4: vtab 23: inverse: print "WHOOPSIE DOODLE! YOU ATE YOURSELF";
-6030 color=cc : plot snake(sh,1), snake(sh,2)
+6030 color=cc : plot asc(snake$(sh,1)), asc(snake$(sh,2))
 6040 j = st : color = lc
+6050 rem lose animation
 6060 for I = 1 to ln-1
-6070 plot snake(j, 1), snake(j,2)
+6070 plot asc(snake$(j, 1)), asc(snake$(j,2))
 6080 j = j + 1
 6090 if j > ln then j = 1
 6100 next I
-6110 color=cc : plot snake(sh,1), snake(sh,2)
+6110 color=cc : plot asc(snake$(sh,1)), asc(snake$(sh,2))
 6120 htab 5: vtab 24: normal: print "PRESS ENTER TO START A NEW GAME";
 6130 POKE 49168,0
 6140 if peek(49152) <> 141 then goto 6140
@@ -125,26 +127,28 @@
 10020 if sc = wn then gg = 0 : goto 11000 
 10030 ll = ll -1 
 10040 if ln+sg > ml then return
+10050 rem copy snake
 10060 j=1
 10070 for i = st to ln
-10080 snake(j,3) = snake(i,1)
-10090 snake(j,4) = snake(i,2)
+10080 snake$(j,3) = snake$(i,1)
+10090 snake$(j,4) = snake$(i,2)
 10100 j = j + 1
 10110 next i
 10120 if st = 1 then goto 10180
 10130 for i = 1 to sh
-10140 snake(j,3) = snake(I,1)
-10150 snake(j,4) = snake(i,2)
+10140 snake$(j,3) = snake$(I,1)
+10150 snake$(j,4) = snake$(i,2)
 10160 j = j + 1
 10170 next i
 10180 ln=ln+ sg
+10190 rem now rebuild snake array, repeat first SG positions so the snake grows while it moves
 10195 for i = 1 to sg
-10200 snake(i,1) = snake(1,3)
-10210 snake(i,2) = snake(1,4)
+10200 snake$(i,1) = snake$(1,3)
+10210 snake$(i,2) = snake$(1,4)
 10220 next i
 10270 for i = 1 to ln-sg
-10280 snake(I+sg,1) = snake(I,3)
-10290 snake(I+sg,2) = snake(I,4)
+10280 snake$(I+sg,1) = snake$(I,3)
+10290 snake$(I+sg,2) = snake$(I,4)
 10300 next i
 10310 sh = ln : st = 1
 10320 gosub 9000 
@@ -157,13 +161,14 @@
 11040 x = rnd(1) 
 11050 if peek(49152) <> 141 then goto 11040
 11060 POKE 49168,0
-11070 gosub 12000 : 
+11070 gosub 12000 
 11198 goto 220
 
-11200 color=wc 
+11200 rem win animation
+11210 color=wc 
 11220 j = st
 11230 for I = 1 to ln
-11240 plot snake(j, 1), snake(j,2)
+11240 plot asc(snake$(j, 1)), asc(snake$(j,2))
 11250 j = j + 1
 11260 if j > ln then j = 1
 11270 next I
