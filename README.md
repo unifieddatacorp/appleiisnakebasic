@@ -18,7 +18,7 @@ Notes:
 
 - There are some parameters you can play with at the top of the file.
 
-- RAM: I don't know if this will work on a smaller, say 4K system. You can try reducing the size of the "snake" array on line 150 as the number I picked is unreasonably large anyway - but then you may need to add a check to stop the snake from growing larger than the array size.
+- RAM: I don't know if this will work on a smaller, say 4K system. You will need to try reducing the size of the "snake" array on line 150 as the number I picked is unreasonably large anyway - also there's a version with all the comments removed, that might help.
 
 - It's far from perfect but I have to stop somewhere.
 
