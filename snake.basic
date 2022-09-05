@@ -182,7 +182,7 @@
 11210 color=wc : rem win color
 11220 j = st
 11230 for I = 1 to ln
-11240 plot snake$(j, 1), snake$(j,2)
+11240 plot asc(snake$(j, 1)), asc(snake$(j,2))
 11250 j = j + 1
 11260 if j > ln then j = 1
 11270 next I
