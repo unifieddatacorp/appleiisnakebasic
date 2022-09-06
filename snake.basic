@@ -88,7 +88,7 @@
 5150 plot asc(snake$(sh,1)), asc(snake$(sh,2))
 5160 if mt = 0 then goto 5180
 5170 mt = mt - 1
-5180 if mt = 0 then home: gosub 9000
+5180 if mt = 0 then mt = -1 : home: gosub 9000
 5998 return
 
 5999 rem draw game over screen, wait for keypress or for a short time then return
